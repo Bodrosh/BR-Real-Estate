@@ -115,7 +115,7 @@ var showMobileFilter = function showMobileFilter() {
 
 
 function init() {
-  console.log('DOMContentLoaded');
+  //console.log('DOMContentLoaded');
   document.querySelector('.wow') && new WOW().init();
   var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-toggle="popover"]'));
   var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
@@ -185,7 +185,17 @@ function init() {
   var singleMap = document.getElementById('post-map');
   var myMap;
   singleMap && ymaps.ready(function () {
-    var center = [55.75399399999374, 37.62209300000001];
+
+   var center = [55.75399399999374, 37.62209300000001];
+   let objAddress = 'Объект находится здесь'
+
+   if(typeof brMap !== 'undefined' && brMap.length > 0) {
+     const mapObject = JSON.parse(brMap)
+     // console.log(mapObject)
+     center = [mapObject.value.lat, mapObject.value.lng]
+       objAddress = mapObject.value.address
+   }
+
     myMap = new ymaps.Map('post-map', {
       center: center,
       zoom: 10,
@@ -193,13 +203,14 @@ function init() {
     }, {
       searchControlProvider: 'yandex#search'
     });
-    var appartmentPlacemark = new ymaps.Placemark([55.76288506899503, 37.531872999999884], // myMap.getCenter(),
-    {// hintContent: 'ЖК',
+
+    var appartmentPlacemark = new ymaps.Placemark(center, // myMap.getCenter(),
+    { hintContent: objAddress,
       // balloonContent: 'Это красивая метка'
     }, {
       // Опции.
       iconLayout: 'default#image',
-      iconImageHref: 'img/icons/home.svg',
+      iconImageHref: '/wp-content/plugins/br-real-estate/assets/img/icons/home.svg',
       iconImageSize: [46, 46],
       iconImageOffset: [-23, -23]
     });

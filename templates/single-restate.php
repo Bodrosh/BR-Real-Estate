@@ -99,5 +99,11 @@ $address = $fields['address'] ? $fields['address'] : [];
 
     <div class="page-filter"></div>
 </div>
+<?php
 
+if (  $address ) : ?>
+    <script>
+        var brMap = '<?php echo json_encode( $address ); ?>';
+    </script>
+<?php endif; ?>
 <?php require_once BR_RESTATE_DIR . '/templates/footer.php'; ?>
